@@ -4,8 +4,12 @@ package com.anuradha.centralservice.model;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.time.LocalDateTime;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,10 +18,10 @@ public class Post {
     private String description;
     @CreatedDate
     @Column(nullable = false, updatable = false)
-    private String createdAt;
+    private LocalDateTime createdAt;
     @LastModifiedDate
     @Column(nullable = false)
-    private String updatedAt;
+    private LocalDateTime updatedAt;
 
     public Post() {
     }
@@ -51,19 +55,19 @@ public class Post {
         this.description = description;
     }
 
-    public String getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(String createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
-    public String getUpdatedAt() {
+    public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(String updatedAt) {
+    public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
 }

@@ -21,16 +21,20 @@ public class PostService {
         ));
     }
 
-    public List<PostDto> findAll(){
-        return postRepository.findAll().stream().map(post -> {
-            PostDto postDto = new PostDto();
-            postDto.setId(post.getId());
-            postDto.setTitle(post.getTitle());
-            postDto.setDescription(post.getDescription());
-            postDto.setCreatedAt(post.getCreatedAt().toString());
-            postDto.setUpdatedAt(post.getUpdatedAt().toString());
-            return postDto;
-        }).toList();
+    public List<PostDto> findAll() {
+        return postRepository.findAll().stream()
+                .map(this::toPostDto)
+                .toList();
+    }
+
+    private PostDto toPostDto(Post post) {
+        PostDto postDto = new PostDto();
+        postDto.setUuid(post.getUuid().toString());
+        postDto.setTitle(post.getTitle());
+        postDto.setDescription(post.getDescription());
+        postDto.setCreatedAt(post.getCreatedAt());
+        postDto.setUpdatedAt(post.getUpdatedAt());
+        return postDto;
     }
 
 }

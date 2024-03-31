@@ -11,5 +11,9 @@ spring:
       ddl-auto: ${DB_DDL_AUTO}
     show-sql: true
 
+file:
+  upload-dir: ${FILE_UPLOAD_DIR}
 
-
+server:
+  error:
+    include-message: always

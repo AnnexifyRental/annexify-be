@@ -1,6 +1,7 @@
 package com.anuradha.centralservice.controller;
 
 import com.anuradha.centralservice.dto.PostDto;
+import com.anuradha.centralservice.dto.UuidResponseDto;
 import com.anuradha.centralservice.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,8 +18,8 @@ public class PostController {
     private PostService postService;
 
     @PostMapping
-    public void savePost(@RequestBody PostDto postDto) {
-        postService.savePost(postDto);
+    public UuidResponseDto savePost(@RequestBody PostDto postDto) {
+        return postService.savePost(postDto);
     }
 
     @PutMapping("images")

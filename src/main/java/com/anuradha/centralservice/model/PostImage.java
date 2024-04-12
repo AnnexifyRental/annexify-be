@@ -11,7 +11,16 @@ public class PostImage {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "postId")
     private Post post;
+    @Column(columnDefinition = "TEXT")
     private String url;
+
+    public PostImage() {
+    }
+
+    public PostImage(Post post, String url) {
+        this.post = post;
+        this.url = url;
+    }
 
     public int getId() {
         return id;

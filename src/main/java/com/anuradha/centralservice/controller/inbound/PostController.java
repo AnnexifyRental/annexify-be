@@ -1,4 +1,4 @@
-package com.anuradha.centralservice.controller;
+package com.anuradha.centralservice.controller.inbound;
 
 import com.anuradha.centralservice.dto.PostDto;
 import com.anuradha.centralservice.dto.UuidResponseDto;
@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/post")
-@CrossOrigin(origins = "http://localhost:19000")
 public class PostController {
 
     @Autowired
@@ -23,8 +23,8 @@ public class PostController {
     }
 
     @PutMapping("images")
-    public void uploadPostImages(@RequestParam String postUuid, @RequestParam("image") List<MultipartFile> images) {
-        postService.uploadImages(postUuid, images);
+    public void uploadPostImages(@RequestParam UUID uuid, List<MultipartFile> images) {
+        postService.uploadImages(uuid, images);
     }
 
     @GetMapping

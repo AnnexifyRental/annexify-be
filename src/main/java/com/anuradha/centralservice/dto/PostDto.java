@@ -3,6 +3,7 @@ package com.anuradha.centralservice.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class PostDto {
 
@@ -19,6 +20,8 @@ public class PostDto {
             pattern = "yyyy-MM-dd' 'HH:mm:ss"
     )
     private LocalDateTime updatedAt;
+    private List<String> images;
+
 
     public String getTitle() {
         return title;
@@ -58,6 +61,14 @@ public class PostDto {
 
     public void setUuid(String uuid) {
         this.uuid = uuid;
+    }
+
+    public List<String> getImages() {
+        return images;
+    }
+
+    public void setImages(List<String> images) {
+        this.images = images;
     }
 }
 

@@ -7,9 +7,11 @@ import com.anuradha.centralservice.model.Post;
 import com.anuradha.centralservice.model.PostImage;
 import com.anuradha.centralservice.repository.PostImageRepository;
 import com.anuradha.centralservice.repository.PostRepository;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -103,5 +105,12 @@ public class PostService {
             }
         }
 
+    }
+
+    @Transactional
+    @Modifying
+    public void delete(UUID uuid) {
+        postImageRepository.deleteByPostUuid(uuid);
+        postRepository.deleteByUuid(uuid);
     }
 }

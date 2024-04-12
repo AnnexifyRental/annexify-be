@@ -4,6 +4,7 @@ import com.anuradha.centralservice.dto.PostDto;
 import com.anuradha.centralservice.dto.UuidResponseDto;
 import com.anuradha.centralservice.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,5 +32,11 @@ public class PostController {
     public List<PostDto> findAll() {
         return postService.findAll();
     }
+
+    @DeleteMapping
+    public void delete(@RequestParam UUID uuid) {
+        postService.delete(uuid);
+    }
+
 
 }

@@ -12,4 +12,7 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     Optional<Post> findByUuid(UUID uuid);
 
     List<Post> findAllByOrderByUpdatedAtDesc();
+
+    void deleteByUuid(UUID uuid);
+
 }

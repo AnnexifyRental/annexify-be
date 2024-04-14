@@ -21,6 +21,7 @@ public class Post {
     private UUID uuid;
     private String title;
     private String description;
+    @Column(columnDefinition = "TEXT")
     private String thumbnail;
     @CreatedDate
     @Column(nullable = false, updatable = false)

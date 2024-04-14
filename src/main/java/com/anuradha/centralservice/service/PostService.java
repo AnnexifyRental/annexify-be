@@ -52,16 +52,6 @@ public class PostService {
                 .toList();
     }
 
-    private PostDto toPostDto(Post post) {
-        PostDto postDto = new PostDto();
-        postDto.setUuid(post.getUuid().toString());
-        postDto.setTitle(post.getTitle());
-        postDto.setDescription(post.getDescription());
-        postDto.setCreatedAt(post.getCreatedAt());
-        postDto.setUpdatedAt(post.getUpdatedAt());
-        postDto.setImages(postImageRepository.findByPost(post));
-        return postDto;
-    }
 
     public void uploadImages(UUID postUuid, MultipartFile thumbnail, List<MultipartFile> images) {
         validateUploadImagesRequest(thumbnail, images);
@@ -79,6 +69,18 @@ public class PostService {
                         .toList()
         );
 
+    }
+
+    private PostDto toPostDto(Post post) {
+        return new PostDto(
+                post.getUuid().toString(),
+                post.getTitle(),
+                post.getDescription(),
+                post.getCreatedAt(),
+                post.getUpdatedAt(),
+                post.getThumbnail(),
+                postImageRepository.findByPost(post)
+        );
     }
 
     private String uploadImage(MultipartFile image) {

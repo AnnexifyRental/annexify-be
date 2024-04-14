@@ -10,6 +10,8 @@ public class PostDto {
     private String uuid;
     private String title;
     private String description;
+    private String thumbnail;
+    private List<String> images;
     @JsonFormat(
             shape = JsonFormat.Shape.STRING,
             pattern = "yyyy-MM-dd' 'HH:mm:ss"
@@ -20,8 +22,19 @@ public class PostDto {
             pattern = "yyyy-MM-dd' 'HH:mm:ss"
     )
     private LocalDateTime updatedAt;
-    private List<String> images;
 
+    public PostDto() {
+    }
+
+    public PostDto(String uuid, String title, String description, LocalDateTime createdAt, LocalDateTime updatedAt, String thumbnail, List<String> images) {
+        this.uuid = uuid;
+        this.title = title;
+        this.description = description;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.thumbnail = thumbnail;
+        this.images = images;
+    }
 
     public String getTitle() {
         return title;
@@ -69,6 +82,14 @@ public class PostDto {
 
     public void setImages(List<String> images) {
         this.images = images;
+    }
+
+    public String getThumbnail() {
+        return thumbnail;
+    }
+
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
     }
 }
 

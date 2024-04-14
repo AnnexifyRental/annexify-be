@@ -4,7 +4,6 @@ import com.anuradha.centralservice.dto.PostDto;
 import com.anuradha.centralservice.dto.UuidResponseDto;
 import com.anuradha.centralservice.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,8 +23,8 @@ public class PostController {
     }
 
     @PutMapping("images")
-    public void uploadPostImages(@RequestParam UUID uuid, List<MultipartFile> images) {
-        postService.uploadImages(uuid, images);
+    public void uploadPostImages(@RequestParam UUID uuid, MultipartFile thumbnail, List<MultipartFile> images) {
+        postService.uploadImages(uuid, thumbnail, images);
     }
 
     @GetMapping

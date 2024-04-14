@@ -21,6 +21,7 @@ public class Post {
     private UUID uuid;
     private String title;
     private String description;
+    private String thumbnail;
     @CreatedDate
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -82,5 +83,13 @@ public class Post {
 
     public void setUuid(UUID uuid) {
         this.uuid = uuid;
+    }
+
+    public String getThumbnail() {
+        return thumbnail;
+    }
+
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
     }
 }

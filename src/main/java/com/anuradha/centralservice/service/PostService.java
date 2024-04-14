@@ -27,7 +27,6 @@ import java.util.UUID;
 @Service
 public class PostService {
 
-    // add logger
     private static final Logger logger = LoggerFactory.getLogger(PostService.class);
 
     @Autowired
@@ -64,31 +63,36 @@ public class PostService {
         return postDto;
     }
 
-    public void uploadImages(UUID postUuid, List<MultipartFile> images) {
-        validateUploadImagesRequest(images);
+    public void uploadImages(UUID postUuid, MultipartFile thumbnail, List<MultipartFile> images) {
+        validateUploadImagesRequest(thumbnail, images);
 
         Post post = postRepository.findByUuid(postUuid)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Post not found"));
 
+        post.setThumbnail(uploadImage(thumbnail));
+        postRepository.save(post);
+
         postImageRepository.saveAll(
                 images.stream()
-                        .map(image -> {
-                            try {
-                                String url = awsS3Client.uploadFile("central-images/" + image.getOriginalFilename(), image.getBytes(), image.getContentType());
-                                return new PostImage(post, url);
-                            } catch (IOException e) {
-                                logger.error("PostService | uploadImages | postUuid: {} | Error: {}", postUuid, e.getMessage());
-                                return null;
-                            }
-                        })
-                        .filter(Objects::nonNull) // Remove null entries if needed
+                        .map(x -> new PostImage(post, uploadImage(x)))
+                        .filter(x -> Objects.nonNull(x.getUrl()))
                         .toList()
         );
 
-
     }
 
-    private void validateUploadImagesRequest(List<MultipartFile> images) {
+    private String uploadImage(MultipartFile image) {
+        try {
+            return awsS3Client.uploadFile("central-images/" + image.getOriginalFilename(), image.getBytes(), image.getContentType());
+        } catch (IOException e) {
+            logger.error("PostService | uploadImage | Error: {}", e.getMessage());
+            return null;
+        }
+    }
+
+    private void validateUploadImagesRequest(MultipartFile thumbnail, List<MultipartFile> images) {
+        if (thumbnail == null || thumbnail.isEmpty() || thumbnail.getOriginalFilename() == null)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Thumbnail is required");
         if (images.isEmpty())
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Images are required");
         if (images.size() > 5)

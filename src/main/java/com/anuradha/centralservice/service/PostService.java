@@ -62,6 +62,7 @@ public class PostService {
         post.setThumbnail(uploadImage(thumbnail));
         postRepository.save(post);
 
+        if (images == null || images.isEmpty()) return;
         postImageRepository.saveAll(
                 images.stream()
                         .map(x -> new PostImage(post, uploadImage(x)))
@@ -95,19 +96,22 @@ public class PostService {
     private void validateUploadImagesRequest(MultipartFile thumbnail, List<MultipartFile> images) {
         if (thumbnail == null || thumbnail.isEmpty() || thumbnail.getOriginalFilename() == null)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Thumbnail is required");
-        if (images.isEmpty())
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Images are required");
-        if (images.size() > 5)
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Maximum 5 images are allowed");
-        for (MultipartFile image : images) {
-            if (image == null || image.isEmpty() || image.getOriginalFilename() == null)
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "File is empty");
+//        if (images.isEmpty())
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Images are required");
+
+        if (images != null && !images.isEmpty()) {
+            if (images.size() > 5)
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Maximum 5 images are allowed");
+            for (MultipartFile image : images) {
+                if (image == null || image.isEmpty() || image.getOriginalFilename() == null)
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "File is empty");
 
 
-            String contentType = image.getContentType();
-            if (!Arrays.asList("image/jpeg", "image/png", "image/jpg").contains(contentType)) {
-                throw new ResponseStatusException(
-                        HttpStatus.BAD_REQUEST, "Invalid file type. Only PNG, JPEG, and JPG images are allowed.");
+                String contentType = image.getContentType();
+                if (!Arrays.asList("image/jpeg", "image/png", "image/jpg").contains(contentType)) {
+                    throw new ResponseStatusException(
+                            HttpStatus.BAD_REQUEST, "Invalid file type. Only PNG, JPEG, and JPG images are allowed.");
+                }
             }
         }
 

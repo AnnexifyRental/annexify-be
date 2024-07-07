@@ -13,6 +13,7 @@ spring:
   servlet:
     multipart:
       max-file-size: 10MB
+      max-request-size: 10MB
 
 file:
   upload-dir: ${FILE_UPLOAD_DIR}
@@ -28,4 +29,3 @@ aws:
       region: ${AWS_S3_BUCKET_REGION}
     pre-signer:
       duration: ${AWS_S3_PRE_SIGNER_DURATION}
-

@@ -35,12 +35,14 @@ public class PostService {
     private PostRepository postRepository;
     @Autowired
     private PostImageRepository postImageRepository;
+    @Autowired
+    private FileUploaderService fileUploaderService;
 
 
     public UuidResponseDto savePost(PostDto postDto) {
         Post post = postRepository.save(new Post(
-                postDto.getTitle(),
-                postDto.getDescription()
+                postDto.title(),
+                postDto.description()
         ));
         return new UuidResponseDto(post.getUuid().toString());
     }

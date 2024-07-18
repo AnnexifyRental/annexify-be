@@ -18,7 +18,7 @@ public class S3Service {
     @Autowired
     private S3Presigner s3Presigner;
 
-    @Value("${aws.s3.pre-signer.exp.time}")
+    @Value("${aws.s3.pre-signer.duration}")
     private int expirationTimeMinute;
     @Value("${aws.s3.bucket.name}")
     private String bucketName;

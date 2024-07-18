@@ -14,14 +14,13 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 
-@Deprecated
 @Service
 public class FileUploaderService {
 
     @Value("${file.upload-dir}")
     private String uploadDir;
 
-    public void uploadFile(MultipartFile file) {
+    public String uploadFile(MultipartFile file) {
         validateFile(file);
 
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
@@ -32,6 +31,8 @@ public class FileUploaderService {
         } catch (IOException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Failed to upload file : " + e.getMessage());
         }
+
+        return filename;
     }
 
     private void validateFile(MultipartFile file) {

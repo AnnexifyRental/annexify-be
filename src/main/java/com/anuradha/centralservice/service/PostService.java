@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -27,10 +26,6 @@ import java.util.UUID;
 @Service
 public class PostService {
 
-    private static final Logger logger = LoggerFactory.getLogger(PostService.class);
-
-    @Autowired
-    private AwsS3Client awsS3Client;
     @Autowired
     private PostRepository postRepository;
     @Autowired
@@ -87,19 +82,13 @@ public class PostService {
     }
 
     private String uploadImage(MultipartFile image) {
-        try {
-            return awsS3Client.uploadFile("central-images/" + image.getOriginalFilename(), image.getBytes(), image.getContentType());
-        } catch (IOException e) {
-            logger.error("PostService | uploadImage | Error: {}", e.getMessage());
-            return null;
-        }
+//            return awsS3Client.uploadFile("central-images/" + image.getOriginalFilename(), image.getBytes(), image.getContentType());
+        return fileUploaderService.uploadFile(image);
     }
 
     private void validateUploadImagesRequest(MultipartFile thumbnail, List<MultipartFile> images) {
         if (thumbnail == null || thumbnail.isEmpty() || thumbnail.getOriginalFilename() == null)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Thumbnail is required");
-//        if (images.isEmpty())
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Images are required");
 
         if (images != null && !images.isEmpty()) {
             if (images.size() > 5)

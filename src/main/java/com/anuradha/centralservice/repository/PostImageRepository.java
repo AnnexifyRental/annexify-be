@@ -13,5 +13,5 @@ public interface PostImageRepository extends JpaRepository<PostImage, Integer> {
     @Query("SELECT p.url FROM PostImage p WHERE p.post = ?1")
     List<String> findByPost(Post post);
 
-    void deleteByPostUuid(UUID uuid);
+    void deleteByPostUuid(String uuid);
 }

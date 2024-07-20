@@ -9,10 +9,10 @@ import java.util.UUID;
 
 public interface PostRepository extends JpaRepository<Post, Integer> {
 
-    Optional<Post> findByUuid(UUID uuid);
+    Optional<Post> findByUuid(String uuid);
 
     List<Post> findAllByOrderByUpdatedAtDesc();
 
-    void deleteByUuid(UUID uuid);
+    void deleteByUuid(String uuid);
 
 }

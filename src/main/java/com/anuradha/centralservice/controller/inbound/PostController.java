@@ -24,7 +24,7 @@ public class PostController {
     }
 
     @PutMapping("images")
-    public void uploadPostImages(@RequestParam UUID uuid, MultipartFile thumbnail, List<MultipartFile> images) {
+    public void uploadPostImages(@RequestParam String uuid, MultipartFile thumbnail, List<MultipartFile> images) {
         postService.uploadImages(uuid, thumbnail, images);
     }
 
@@ -34,7 +34,7 @@ public class PostController {
     }
 
     @DeleteMapping
-    public void delete(@RequestParam UUID uuid) {
+    public void delete(@RequestParam String uuid) {
         postService.delete(uuid);
     }
 

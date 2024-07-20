@@ -50,7 +50,7 @@ public class PostService {
     }
 
 
-    public void uploadImages(UUID postUuid, MultipartFile thumbnail, List<MultipartFile> images) {
+    public void uploadImages(String postUuid, MultipartFile thumbnail, List<MultipartFile> images) {
         validateUploadImagesRequest(thumbnail, images);
 
         Post post = postRepository.findByUuid(postUuid)
@@ -110,7 +110,7 @@ public class PostService {
 
     @Transactional
     @Modifying
-    public void delete(UUID uuid) {
+    public void delete(String uuid) {
         postImageRepository.deleteByPostUuid(uuid);
         postRepository.deleteByUuid(uuid);
     }

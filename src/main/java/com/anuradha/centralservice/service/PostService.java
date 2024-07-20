@@ -71,7 +71,7 @@ public class PostService {
 
     private PostDto toPostDto(Post post) {
         return new PostDto(
-                post.getUuid().toString(),
+                post.getUuid(),
                 post.getTitle(),
                 post.getDescription(),
                 post.getCreatedAt(),

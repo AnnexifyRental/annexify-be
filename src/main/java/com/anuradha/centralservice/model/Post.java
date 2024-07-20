@@ -16,9 +16,7 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @UuidGenerator
-    @Column(nullable = false)
-    private UUID uuid;
+    private String uuid;
     private String title;
     private String description;
     @Column(columnDefinition = "TEXT")
@@ -31,9 +29,11 @@ public class Post {
     private LocalDateTime updatedAt;
 
     public Post() {
+        this.uuid = UUID.randomUUID().toString();
     }
 
     public Post(String title, String description) {
+        this.uuid = UUID.randomUUID().toString();
         this.title = title;
         this.description = description;
     }
@@ -78,11 +78,11 @@ public class Post {
         this.updatedAt = updatedAt;
     }
 
-    public UUID getUuid() {
+    public String getUuid() {
         return uuid;
     }
 
-    public void setUuid(UUID uuid) {
+    public void setUuid(String uuid) {
         this.uuid = uuid;
     }
 

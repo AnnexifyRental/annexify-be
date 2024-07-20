@@ -1,12 +1,17 @@
 package com.anuradha.centralservice.service;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -47,4 +52,20 @@ public class FileUploaderService {
         }
     }
 
+    public ResponseEntity<byte[]> getFile(String fileName) {
+        try {
+            File file = new File(uploadDir + "/" + fileName);
+            if (!file.exists()) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "File not found, " + fileName);
+            }
+
+            byte[] imageData = FileUtils.readFileToByteArray(file);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.IMAGE_JPEG);
+            return new ResponseEntity<>(imageData, headers, HttpStatus.OK);
+        } catch (IOException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Failed to read file, " + fileName);
+        }
+    }
 }

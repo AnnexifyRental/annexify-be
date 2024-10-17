@@ -1,16 +1,12 @@
 package com.anuradha.centralservice.service;
 
-import com.anuradha.centralservice.controller.outbound.AwsS3Client;
+import com.anuradha.centralservice.dto.IdResponseDto;
 import com.anuradha.centralservice.dto.PostDto;
-import com.anuradha.centralservice.dto.UuidResponseDto;
 import com.anuradha.centralservice.model.Post;
 import com.anuradha.centralservice.model.PostImage;
 import com.anuradha.centralservice.repository.PostImageRepository;
 import com.anuradha.centralservice.repository.PostRepository;
 import jakarta.transaction.Transactional;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -20,26 +16,28 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 
 @Service
 public class PostService {
 
-    @Autowired
-    private PostRepository postRepository;
-    @Autowired
-    private PostImageRepository postImageRepository;
-    @Autowired
-    private FileUploaderService fileUploaderService;
+    private final PostRepository postRepository;
+    private final PostImageRepository postImageRepository;
+    private final FileUploaderService fileUploaderService;
+
+    public PostService(PostRepository postRepository, PostImageRepository postImageRepository, FileUploaderService fileUploaderService) {
+        this.postRepository = postRepository;
+        this.postImageRepository = postImageRepository;
+        this.fileUploaderService = fileUploaderService;
+    }
 
 
-    public UuidResponseDto savePost(PostDto postDto) {
+    public IdResponseDto savePost(PostDto postDto) {
         Post post = postRepository.save(new Post(
                 postDto.title(),
                 postDto.description()
         ));
-        return new UuidResponseDto(post.getUuid().toString());
+        return new IdResponseDto(post.getId());
     }
 
     public List<PostDto> findAll() {
@@ -50,10 +48,10 @@ public class PostService {
     }
 
 
-    public void uploadImages(String postUuid, MultipartFile thumbnail, List<MultipartFile> images) {
+    public void uploadImages(String id, MultipartFile thumbnail, List<MultipartFile> images) {
         validateUploadImagesRequest(thumbnail, images);
 
-        Post post = postRepository.findByUuid(postUuid)
+        Post post = postRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Post not found"));
 
         post.setThumbnail(uploadImage(thumbnail));
@@ -71,7 +69,7 @@ public class PostService {
 
     private PostDto toPostDto(Post post) {
         return new PostDto(
-                post.getUuid(),
+                post.getId(),
                 post.getTitle(),
                 post.getDescription(),
                 post.getCreatedAt(),
@@ -110,8 +108,8 @@ public class PostService {
 
     @Transactional
     @Modifying
-    public void delete(String uuid) {
-        postImageRepository.deleteByPostUuid(uuid);
-        postRepository.deleteByUuid(uuid);
+    public void delete(String id) {
+        postImageRepository.deleteByPostId(id);
+        postRepository.deleteById(id);
     }
 }

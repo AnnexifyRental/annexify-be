@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public record PostDto(
-        String uuid,
+        String id,
         String title,
         String description,
         @JsonFormat(

@@ -7,12 +7,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface PostRepository extends JpaRepository<Post, Integer> {
-
-    Optional<Post> findByUuid(String uuid);
+public interface PostRepository extends JpaRepository<Post, String> {
 
     List<Post> findAllByOrderByUpdatedAtDesc();
-
-    void deleteByUuid(String uuid);
 
 }

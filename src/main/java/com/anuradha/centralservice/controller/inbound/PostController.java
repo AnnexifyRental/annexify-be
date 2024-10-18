@@ -1,7 +1,8 @@
 package com.anuradha.centralservice.controller.inbound;
 
-import com.anuradha.centralservice.dto.PostDto;
+
 import com.anuradha.centralservice.dto.IdResponseDto;
+import com.anuradha.centralservice.dto.PostDto;
 import com.anuradha.centralservice.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

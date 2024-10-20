@@ -3,6 +3,7 @@ package com.anuradha.centralservice.controller.inbound;
 
 import com.anuradha.centralservice.dto.IdResponseDto;
 import com.anuradha.centralservice.dto.PostDto;
+import com.anuradha.centralservice.dto.PostImageSaveDto;
 import com.anuradha.centralservice.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +25,8 @@ public class PostController {
     }
 
     @PutMapping("images")
-    public void uploadPostImages(@RequestParam String id, MultipartFile thumbnail, List<MultipartFile> images) {
-        postService.uploadImages(id, thumbnail, images);
+    public void savePostImages(@RequestBody PostImageSaveDto request) {
+        postService.savePostImages(request);
     }
 
     @GetMapping

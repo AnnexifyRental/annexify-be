@@ -15,9 +15,6 @@ spring:
       max-file-size: 10MB
       max-request-size: 10MB
 
-file:
-  upload-dir: ${FILE_UPLOAD_DIR:ANURADHD}
-
 server:
   error:
     include-message: always

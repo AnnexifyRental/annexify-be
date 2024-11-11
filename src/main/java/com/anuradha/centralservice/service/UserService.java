@@ -18,7 +18,7 @@ public class UserService {
 
         userRepository.findByUsernameOrEmail(userDto.username(), userDto.email())
                 .ifPresentOrElse(
-                        user -> log.info("User already exists: {}", user),
+                        user -> log.info("User already exists: username : {} , email : {}", user.getUsername(), user.getEmail()),
                         () -> userRepository.save(toUser(userDto))
                 );
     }

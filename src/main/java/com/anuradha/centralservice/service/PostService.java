@@ -8,6 +8,7 @@ import com.anuradha.centralservice.model.PostImage;
 import com.anuradha.centralservice.repository.PostImageRepository;
 import com.anuradha.centralservice.repository.PostRepository;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -17,16 +18,11 @@ import java.util.List;
 
 
 @Service
+@RequiredArgsConstructor
 public class PostService {
 
     private final PostRepository postRepository;
     private final PostImageRepository postImageRepository;
-
-    public PostService(PostRepository postRepository, PostImageRepository postImageRepository) {
-        this.postRepository = postRepository;
-        this.postImageRepository = postImageRepository;
-    }
-
 
     public IdResponseDto savePost(PostDto postDto) {
         Post post = postRepository.save(new Post(
@@ -76,5 +72,11 @@ public class PostService {
                 post.getThumbnail(),
                 postImageRepository.findByPost(post)
         );
+    }
+
+    public PostDto findById(String id) {
+        return postRepository.findById(id)
+                .map(this::toPostDto)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Post not found"));
     }
 }

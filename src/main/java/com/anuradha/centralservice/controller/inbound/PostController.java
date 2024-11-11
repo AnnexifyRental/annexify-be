@@ -5,19 +5,18 @@ import com.anuradha.centralservice.dto.IdResponseDto;
 import com.anuradha.centralservice.dto.PostDto;
 import com.anuradha.centralservice.dto.PostImageSaveDto;
 import com.anuradha.centralservice.service.PostService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/post")
 public class PostController {
 
-    @Autowired
-    private PostService postService;
+
+    private final PostService postService;
 
     @PostMapping
     public IdResponseDto savePost(@RequestBody PostDto postDto) {
@@ -32,6 +31,11 @@ public class PostController {
     @GetMapping
     public List<PostDto> findAll() {
         return postService.findAll();
+    }
+
+    @GetMapping("by/id")
+    public PostDto findById(@RequestParam String id) {
+        return postService.findById(id);
     }
 
     @DeleteMapping

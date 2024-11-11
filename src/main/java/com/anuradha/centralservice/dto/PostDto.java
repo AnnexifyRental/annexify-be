@@ -22,5 +22,6 @@ public record PostDto(
         String thumbnail,
         List<String> images
 ) {
+
 }
 

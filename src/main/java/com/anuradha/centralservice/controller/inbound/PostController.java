@@ -1,6 +1,7 @@
 package com.anuradha.centralservice.controller.inbound;
 
 
+import com.anuradha.centralservice.dto.FilterDto;
 import com.anuradha.centralservice.dto.IdResponseDto;
 import com.anuradha.centralservice.dto.PostDto;
 import com.anuradha.centralservice.dto.PostImageSaveDto;
@@ -31,6 +32,11 @@ public class PostController {
     @GetMapping
     public List<PostDto> findAll() {
         return postService.findAll();
+    }
+
+    @PostMapping("filter")
+    public List<PostDto> findAll(@RequestBody FilterDto filterDto) {
+        return postService.findAll(filterDto);
     }
 
     @GetMapping("by/id")

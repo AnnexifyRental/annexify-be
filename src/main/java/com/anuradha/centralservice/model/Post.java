@@ -1,9 +1,7 @@
 package com.anuradha.centralservice.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.Id;
+import com.anuradha.centralservice.enums.CommonStatus;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,6 +25,8 @@ public class Post {
     private String description;
     @Column(columnDefinition = "TEXT")
     private String thumbnail;
+    @Enumerated(EnumType.STRING)
+    private CommonStatus status;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
@@ -38,6 +38,7 @@ public class Post {
     public Post(String title, String description) {
         this.title = title;
         this.description = description;
+        this.status = CommonStatus.APPROVAL_PENDING;
     }
 
 }

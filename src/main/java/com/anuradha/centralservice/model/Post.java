@@ -23,6 +23,12 @@ public class Post {
     private String id;
     private String title;
     private String description;
+    private String address;
+    private String rooms;
+    private String beds;
+    private String baths;
+    private String size;
+    private String price;
     @Column(columnDefinition = "TEXT")
     private String thumbnail;
     @Enumerated(EnumType.STRING)
